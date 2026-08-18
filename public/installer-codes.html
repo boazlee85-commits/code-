@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My App - Windows Installer Return Codes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+
+        main {
+            padding: 40px 30px;
+        }
+
+        .intro {
+            background: #f8f9ff;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+            border-left: 4px solid #667eea;
+        }
+
+        .intro p {
+            margin-bottom: 10px;
+            color: #555;
+            font-size: 1.05rem;
+        }
+
+        .intro p:last-child {
+            margin-bottom: 0;
+        }
+
+        h2 {
+            color: #667eea;
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            font-weight: 600;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 12px;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            margin-bottom: 40px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        th {
+            padding: 18px 20px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        td {
+            padding: 16px 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        tbody tr:hover {
+            background: #f8f9ff;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .code-cell {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-weight: 600;
+            color: #667eea;
+            font-size: 1.1rem;
+        }
+
+        .not-used {
+            color: #999;
+            font-style: italic;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-content {
+            background: #f8f9ff;
+            padding: 25px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .section-content p {
+            color: #555;
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+
+        .section-content strong {
+            color: #333;
+        }
+
+        footer {
+            background: #f8f9ff;
+            padding: 25px 30px;
+            border-top: 1px solid #ddd;
+            text-align: center;
+            color: #999;
+            font-size: 0.95rem;
+        }
+
+        .tech-stack {
+            display: inline-block;
+            background: white;
+            padding: 5px 12px;
+            border-radius: 4px;
+            margin: 5px 2px;
+            font-size: 0.9rem;
+            color: #667eea;
+            border: 1px solid #667eea;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            header p {
+                font-size: 1rem;
+            }
+
+            main {
+                padding: 25px 20px;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            th, td {
+                padding: 12px 15px;
+                font-size: 0.9rem;
+            }
+
+            .code-cell {
+                font-size: 0.95rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            header {
+                padding: 25px 20px;
+            }
+
+            header h1 {
+                font-size: 1.5rem;
+            }
+
+            main {
+                padding: 20px 15px;
+            }
+
+            .table-wrapper {
+                border: none;
+            }
+
+            table {
+                font-size: 0.85rem;
+            }
+
+            th, td {
+                padding: 10px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>My App Windows Installer Return Codes</h1>
+            <p>Technical Documentation for Installation Status Codes</p>
+        </header>
+
+        <main>
+            <section class="intro">
+                <p><strong>Overview:</strong> This page documents the return codes used by the My App Windows EXE installer. These codes are returned by the NSIS-based installer to indicate the installation status or any errors that occurred during the installation process.</p>
+                <p>Return codes can be used by deployment systems, batch scripts, or other automation tools to determine whether the installation succeeded or failed, and to take appropriate action based on the result.</p>
+            </section>
+
+            <section class="section">
+                <h2>Installer Return Codes</h2>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Status</th>
+                                <th>Return Code</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Installation Successful</td>
+                                <td class="code-cell">0</td>
+                                <td>The application installed successfully with no errors.</td>
+                            </tr>
+                            <tr>
+                                <td>Installation Cancelled by User</td>
+                                <td class="code-cell">1</td>
+                                <td>The user cancelled the installation process before it could complete.</td>
+                            </tr>
+                            <tr>
+                                <td>Application Already Exists</td>
+                                <td class="code-cell"><span class="not-used">Not used/documented</span></td>
+                                <td>Custom handling for existing installations is not defined in the standard installer configuration.</td>
+                            </tr>
+                            <tr>
+                                <td>Installation Already in Progress</td>
+                                <td class="code-cell"><span class="not-used">Not used/documented</span></td>
+                                <td>The installer does not define a specific return code for concurrent installation attempts.</td>
+                            </tr>
+                            <tr>
+                                <td>Disk Space is Full</td>
+                                <td class="code-cell"><span class="not-used">Not used/documented</span></td>
+                                <td>Disk space checks are performed by NSIS, but no custom return code is defined for this condition.</td>
+                            </tr>
+                            <tr>
+                                <td>Reboot Required</td>
+                                <td class="code-cell"><span class="not-used">Not used/documented</span></td>
+                                <td>System reboot requirements are handled by NSIS, but no custom return code is defined.</td>
+                            </tr>
+                            <tr>
+                                <td>Network Failure</td>
+                                <td class="code-cell"><span class="not-used">Not used/documented</span></td>
+                                <td>No network-dependent operations are configured in the standard installer.</td>
+                            </tr>
+                            <tr>
+                                <td>Package Rejected During Installation</td>
+                                <td class="code-cell"><span class="not-used">Not used/documented</span></td>
+                                <td>Package validation is not configured as a separate installation step.</td>
+                            </tr>
+                            <tr>
+                                <td>Miscellaneous/Custom Installer Codes</td>
+                                <td class="code-cell"><span class="not-used">Not used/documented</span></td>
+                                <td>No additional custom return codes are currently defined for this installer.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>Additional Return Codes</h2>
+                <div class="section-content">
+                    <p><strong>Standard NSIS Codes:</strong> This installer uses the Nullsoft Scriptable Install System (NSIS) framework with the electron-builder default configuration. The standard NSIS installer returns codes 0 (success) and 1 (cancelled). Any other return codes would indicate system-level errors or require custom NSIS scripting.</p>
+                    <p><strong>Generic Errors:</strong> If the installer encounters any errors not covered above, the system may return error codes from the operating system or NSIS framework. Refer to the system event logs for detailed error information in such cases.</p>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>Using Return Codes in Scripts</h2>
+                <div class="section-content">
+                    <p><strong>Example (Windows Batch):</strong></p>
+                    <pre style="background: #f5f5f5; padding: 15px; border-radius: 6px; overflow-x: auto; margin-top: 10px;"><code>MyApp-Installer.exe
+if %errorlevel% equ 0 (
+    echo Installation successful
+) else if %errorlevel% equ 1 (
+    echo Installation cancelled by user
+) else (
+    echo Installation failed with code %errorlevel%
+)</code></pre>
+                    <p style="margin-top: 15px;"><strong>Example (PowerShell):</strong></p>
+                    <pre style="background: #f5f5f5; padding: 15px; border-radius: 6px; overflow-x: auto; margin-top: 10px;"><code>&. 'C:\path\to\MyApp-Installer.exe'
+$exitCode = $LASTEXITCODE
+Write-Host "Installer exit code: $exitCode"</code></pre>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>Technical Details</h2>
+                <div class="section-content">
+                    <p><strong>Installer Technology:</strong> This application uses the following technologies for Windows distribution:</p>
+                    <div style="margin-top: 15px;">
+                        <span class="tech-stack">Electron</span>
+                        <span class="tech-stack">Electron Builder</span>
+                        <span class="tech-stack">NSIS</span>
+                        <span class="tech-stack">Windows (x64)</span>
+                    </div>
+                    <p style="margin-top: 15px;">For more information about NSIS return codes or custom installation requirements, please contact the application support team or refer to the official Electron Builder documentation.</p>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>Documentation generated on 2026-08-18</p>
+            <p style="margin-top: 10px; font-size: 0.85rem;">This is a technical reference document for Windows installer return codes used by My App.</p>
+        </footer>
+    </div>
+</body>
+</html>
